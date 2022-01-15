@@ -1,7 +1,7 @@
 Yousician Songs API
 =================
 
-**Tested on Linux**
+**Tested on Ubuntu/Linux**
 
 A small songs API created using Flask MongoDB and Docker 
 
@@ -26,6 +26,11 @@ Clone the repo using linux terminal:
 
     git clone https://github.com/ShaonMahmood/SongsApp.git
     cd SongsApp
+
+If You Have zip file, unzip it first and then chnage the directory, i used ubuntu's unzip:
+
+    unzip SongsApp-main.zip
+    cd SongsApp-main/
 
 Spin up the application contaners using docker compose
 
