@@ -40,17 +40,14 @@ docker-compose up -d --build
 
 The api server is up and running. The songs.json is loaded as expected. You can test it by listing the songs at http://localhost:5000/songs
 
-
-## Uninstall/ Clean up Containers
-Full clean up
-
+## Run Unit Tests
 ```sh
-docker-compose down -v
-docker-compose rm -fs
-docker system prune 
-
+docker exec flask python -m unittest discover -p '*_test.py' -v
 ```
 
+Test Result:
+
+![Unit Test](https://github.com/ShaonMahmood/SongsApp/blob/main/screeshots/unit_test.png)
 
 ## API Documentation
 
@@ -187,6 +184,16 @@ Example in `Postman`:
 
 ![Rating Stat](https://github.com/ShaonMahmood/SongsApp/blob/main/screeshots/rating_stat.png)
 
+
+## Uninstall/ Clean up Containers
+Full clean up
+
+```sh
+docker-compose down -v
+docker-compose rm -fs
+docker system prune 
+
+```
 
 ## Improvement
 
