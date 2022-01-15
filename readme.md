@@ -20,76 +20,168 @@ A small songs API created using Flask MongoDB and Docker
  - Write a README with all instructions to set up the project.
  - Take into consideration that the number of songs and ratings will grow to millions of documents as well as the number of users using the API.
 
-## Usage
+## Installation
 
-Clone the repo:
+Clone the repo using linux terminal:
 
-    git clone https://github.com/bonzanini/flask-api-template
-    cd flask-api-template
+    git clone https://github.com/ShaonMahmood/SongsApp.git
+    cd SongsApp
 
-Dev with dockerized `Postgres`
+Spin up the application contaners using docker compose
 
 ```sh
-docker-compose --file docker-compose-dev.yml up --build
+docker-compose up -d --build
 ```
 
-Stand up external `Postgres` database
+The api server is up and running. The songs.json is loaded as expected. You can test it by listing the songs at http://localhost:5000/songs
+
+
+## Uninstall/ Clean up Containers
+Full clean up
 
 ```sh
-bash db/init.sh
-```
-
-Build containers
-
-```sh
-docker-compose up --build
-```
-
-Full clean up (remove `Postgres` volume)
-
-```sh
-docker stop $(docker ps -a -q)
+docker-compose down -v
 docker-compose rm -fs
-docker system prune
-rm -rf postgres_data
+docker system prune 
+
 ```
 
-User Registration example
 
+## API Documentation
+
+### List all the songs(Requirement A)
+* Url: http://localhost:5000/songs
+* GET request
+* It takes an optional parameter `page` for pagination
+
+Response format:
 ```json
 {
-    "email": "test@test.com",
-    "password": "12345"
+  
+    "_links": {
+        "last": {
+            "href": "http://localhost:5000/songs?page=2"
+        },
+        "next": {
+            "href": "http://localhost:5000/songs?page=2"
+        },
+        "self": {
+            "href": "http://localhost:5000/songs?page=1"
+        }
+    },
+    "songs": [
+        {
+            "_id": "61e2685deabb90ac31106b42",
+            "artist": "The Yousicians",
+            "difficulty": 9.1,
+            "level": 9,
+            "rating": [
+                5,
+                5
+            ],
+            "released": "2010-02-03",
+            "title": "A New Kennel"
+        }
+    ]
 }
 ```
 
 Example in `Postman`:
 
-![Registration Example](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+![Songs List](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
 
-## Gotchas
 
-Set `PROPAGATE_EXCEPTIONS` to propagate exceptions from `flask-jwt-extended`
+### Average difficulty for all songs(Requirement B)
+* Url: http://localhost:5000/songs/average-difficulty?level=13
+* GET Request
+* It takes an optional parameter `level` to filter for only songs from a specific level.
 
-```python
-class Config:
-    ...
-    PROPAGATE_EXCEPTIONS = True
+Response format:
+```json
+{
+    "average_difficulty": 10.323636363636364
+}
 ```
 
-Must include `Pipfile.lock` for `pipenv` to install system-wide in docker
+Example in `Postman`:
 
-```dockerfile
-...
-COPY Pipfile.lock /home/project/web
-...
+![Average Difficulty](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+
+### Returns a list of songs matching the search string(Requirement C)
+* Url: http://localhost:5000/songs/search-by-message?message=text
+* GET request
+* Takes a required parameter "message" containing the user's search string.
+* The search takes into account song's artist and title.
+* The search is case insensitive
+
+Response format:
+```json
+{
+    "songs": [
+        {
+            "_id": "61e2685deabb90ac31106b42",
+            "artist": "The Yousicians",
+            "difficulty": 9.1,
+            "level": 9,
+            "rating": [
+                5,
+                5
+            ],
+            "released": "2010-02-03",
+            "title": "A New Kennel"
+        }
+    ]
+}
 ```
 
-Use `host.docker.internal` inside container to access host machine's localhost
+Example in `Postman`:
 
-```sh
-DATABASE_URL=postgresql://dev:12345@host.docker.internal:5432/jwt
+![List of songs matching string](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+
+
+### Adds a rating for the given song. (Requirement D)
+* Url: http://localhost:5000/songs/add-rating
+* POST request
+* Takes required parameters "song_id" and "rating"
+* Ratings should be between 1 and 5 inclusive
+
+
+Example Payload:
+```json
+{
+    "id": "61e2685deabb90ac31106b42",
+    "rating": "5"
+}
 ```
+
+Response format:
+```json
+{
+    "success": "rating added to song id: 61e2685deabb90ac31106b42"
+}
+```
+
+Example in `Postman`:
+
+![Add Rating](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+
+### Returns rating statistics of the given song id. (Requirement E)
+* Url: http://localhost:5000/songs/rating-stat/<sond_id>
+* GET request
+
+Response format:
+```json
+{
+    "average_rating": 5.0,
+    "max_rating": 5,
+    "min_rating": 5
+}
+```
+
+Example in `Postman`:
+
+![Rating Stat](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+
 
 ## Caveats
 
