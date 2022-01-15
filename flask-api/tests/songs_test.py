@@ -51,8 +51,6 @@ class TestSongs(unittest.TestCase):
             average_difficulty_from_api = response.get_json()['average_difficulty']
             expected_average_difficulty = 10.323636363636364
 
-            # since pagination set to 10
-
             self.assertEqual(average_difficulty_from_api, expected_average_difficulty)
 
     def test_search_by_message(self):
@@ -87,9 +85,7 @@ class TestSongs(unittest.TestCase):
             response = app.post("/songs/add-rating", json=post_body)
             error_message_from_api = response.get_json()['error']
             expected_message = "rating should be in between 1 to 5"
-            # songs_list = response.get_json()['songs']
-            #
-            # # since 1 song has a title with new as substring
+
             self.assertEqual(error_message_from_api, expected_message)
             self.assertEqual(response.status_code, 400)
 
