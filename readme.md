@@ -88,7 +88,7 @@ Response format:
 
 Example in `Postman`:
 
-![Songs List](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+![Songs List](https://github.com/ShaonMahmood/SongsApp/blob/main/screeshots/songs_list.png)
 
 
 ### Average difficulty for all songs(Requirement B)
@@ -105,7 +105,7 @@ Response format:
 
 Example in `Postman`:
 
-![Average Difficulty](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+![Average Difficulty](https://github.com/ShaonMahmood/SongsApp/blob/main/screeshots/ave_diff.png)
 
 ### Returns a list of songs matching the search string(Requirement C)
 * Url: http://localhost:5000/songs/search-by-message?message=text
@@ -136,7 +136,7 @@ Response format:
 
 Example in `Postman`:
 
-![List of songs matching string](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+![List of songs matching string](https://github.com/ShaonMahmood/SongsApp/blob/main/screeshots/serch-by-message.png)
 
 
 ### Adds a rating for the given song. (Requirement D)
@@ -163,7 +163,7 @@ Response format:
 
 Example in `Postman`:
 
-![Add Rating](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+![Add Rating](https://github.com/ShaonMahmood/SongsApp/blob/main/screeshots/add_rating.png)
 
 ### Returns rating statistics of the given song id. (Requirement E)
 * Url: http://localhost:5000/songs/rating-stat/<sond_id>
@@ -180,14 +180,11 @@ Response format:
 
 Example in `Postman`:
 
-![Rating Stat](https://github.com/yaojiach/docker-flask-boilerplate/blob/master/postman-example.png)
+![Rating Stat](https://github.com/ShaonMahmood/SongsApp/blob/main/screeshots/rating_stat.png)
 
 
-## Caveats
+## Improvement
 
-* Should use external `redis` for production
-
-## References
-
-* https://github.com/oleg-agapov/flask-jwt-auth
-* https://github.com/sladkovm/docker-flask-gunicorn-nginx
+* Should have more Test Cases
+* Test suite can be improved with the introduction of fixtures
+* App Structure could be improved
